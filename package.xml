@@ -10,7 +10,7 @@
   <email>jan@horde.org</email>
   <active>yes</active>
  </lead>
- <date>2017-03-20</date>
+ <date>2017-10-17</date>
  <version>
   <release>1.1.1</release>
   <api>1.1.0</api>
@@ -25,13 +25,6 @@
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
-   <dir name="doc">
-    <dir name="Horde">
-     <dir name="Timezone">
-      <file name="COPYING" role="doc" />
-     </dir> <!-- /doc/Horde/Timezone -->
-    </dir> <!-- /doc/Horde -->
-   </dir> <!-- /doc -->
    <dir name="lib">
     <dir name="Horde">
      <dir name="Timezone">
@@ -69,6 +62,7 @@
      </dir> <!-- /test/Horde/Timezone -->
     </dir> <!-- /test/Horde -->
    </dir> <!-- /test -->
+   <file name="LICENSE" role="doc" />
   </dir> <!-- / -->
  </contents>
  <dependencies>
@@ -115,17 +109,13 @@
  </dependencies>
  <phprelease>
   <filelist>
-   <install as="COPYING" name="doc/Horde/Timezone/COPYING" />
    <install as="Horde/Timezone.php" name="lib/Horde/Timezone.php" />
    <install as="Horde/Timezone/Exception.php" name="lib/Horde/Timezone/Exception.php" />
    <install as="Horde/Timezone/Rule.php" name="lib/Horde/Timezone/Rule.php" />
    <install as="Horde/Timezone/Zone.php" name="lib/Horde/Timezone/Zone.php" />
+   <install as="LICENSE" name="LICENSE" />
    <install as="Horde/Timezone/AllTests.php" name="test/Horde/Timezone/AllTests.php" />
    <install as="Horde/Timezone/bootstrap.php" name="test/Horde/Timezone/bootstrap.php" />
-   <install as="Horde/Timezone/IcalendarTest.php" name="test/Horde/Timezone/IcalendarTest.php" />
-   <install as="Horde/Timezone/Mock.php" name="test/Horde/Timezone/Mock.php" />
-   <install as="Horde/Timezone/ParseTest.php" name="test/Horde/Timezone/ParseTest.php" />
-   <install as="Horde/Timezone/phpunit.xml" name="test/Horde/Timezone/phpunit.xml" />
    <install as="Horde/Timezone/fixtures/budapest" name="test/Horde/Timezone/fixtures/budapest" />
    <install as="Horde/Timezone/fixtures/budapest.ics" name="test/Horde/Timezone/fixtures/budapest.ics" />
    <install as="Horde/Timezone/fixtures/etcetera" name="test/Horde/Timezone/fixtures/etcetera" />
@@ -139,6 +129,10 @@
    <install as="Horde/Timezone/fixtures/northamerica" name="test/Horde/Timezone/fixtures/northamerica" />
    <install as="Horde/Timezone/fixtures/uruguay" name="test/Horde/Timezone/fixtures/uruguay" />
    <install as="Horde/Timezone/fixtures/uruguay.ics" name="test/Horde/Timezone/fixtures/uruguay.ics" />
+   <install as="Horde/Timezone/IcalendarTest.php" name="test/Horde/Timezone/IcalendarTest.php" />
+   <install as="Horde/Timezone/Mock.php" name="test/Horde/Timezone/Mock.php" />
+   <install as="Horde/Timezone/ParseTest.php" name="test/Horde/Timezone/ParseTest.php" />
+   <install as="Horde/Timezone/phpunit.xml" name="test/Horde/Timezone/phpunit.xml" />
   </filelist>
  </phprelease>
  <changelog>
@@ -339,7 +333,7 @@
    <stability>
     <release>stable</release>
     <api>stable</api></stability>
-   <date>2017-03-20</date>
+   <date>2017-10-17</date>
    <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
    <notes>
 * 
