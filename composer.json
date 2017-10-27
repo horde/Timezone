@@ -1,5 +1,5 @@
 {
-    "name": "horde/horde-timezone",
+    "name": "horde/timezone",
     "description": "Timezone library",
     "type": "library",
     "homepage": "https://pear.horde.org",
@@ -21,12 +21,12 @@
     ],
     "require": {
         "php": "^5.3 || ^7",
-        "pear-pear.horde.org/Horde_Date": "^2.3@stable",
-        "pear-pear.horde.org/Horde_Icalendar": "^2@stable",
-        "pear-pear.horde.org/Horde_Vfs": "^2@stable"
+        "pear-pear.horde.org/Horde_Date": "^2.3",
+        "pear-pear.horde.org/Horde_Icalendar": "^2",
+        "pear-pear.horde.org/Horde_Vfs": "^2"
     },
     "suggest": {
-        "pear-pear.horde.org/Horde_Test": "^2.1@stable"
+        "pear-pear.horde.org/Horde_Test": "^2.1"
     },
     "replace": {
         "pear-pear.horde.org/Horde_Timezone": "1.*",
