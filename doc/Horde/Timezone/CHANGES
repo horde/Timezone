@@ -1,0 +1,111 @@
+----------
+v1.1.1-git
+----------
+
+
+------
+v1.1.0
+------
+
+[jan] Fix generating TZOFFSETFROM attributes for certain rules.
+[jan] Add parameters to Horde_Timezone_Zone#toVtimezone() to limit the
+      generated STANDARD and DAYLIGHT sections.
+
+
+-------
+v1.0.11
+-------
+
+[jan] Support more timezone names in Horde_Timezone#getZone().
+
+
+-------
+v1.0.10
+-------
+
+[mjr] Fix generation of broken VTIMEZONE components for certain Rules (Bug
+      #14221).
+[jan] Mark PHP 7 as supported.
+
+
+------
+v1.0.9
+------
+
+[jan] Improve PSR-2 compatibility.
+
+
+------
+v1.0.8
+------
+
+[jan] Fix format of UNTIL attribute when exporting to iCalendar (Joerg Pulz
+      <Joerg.Pulz@frm2.tum.de>).
+
+
+------
+v1.0.7
+------
+
+[jan] Fix "Undefined offset" notice (Bug #13455).
+
+
+------
+v1.0.6
+------
+
+[jan] Use passive FTP for downloading the timezone database
+      (arjen+horde@de-korte.org, Request #13024).
+
+
+------
+v1.0.5
+------
+
+[mjr] Fix using a local copy of the timezone database.
+
+
+------
+v1.0.4
+------
+
+[jan] Fix broken offsets during first zone rules.
+[jan] Make BYMONTHDAY property as short as possible.
+[jan] Fix missing time of day in DTSTART and UNTIL properties.
+[jan] Don't create transitions that overlap.
+[jan] Use orginally requested time zone instead of alias in TZID.
+
+
+------
+v1.0.3
+------
+
+[jan] Fix caching of parsed timezone information.
+
+
+------
+v1.0.2
+------
+
+[jan] Add license file.
+
+
+------
+v1.0.1
+------
+
+[jan] Fix notice when parsing Etc/UTC rules.
+
+
+------
+v1.0.0
+------
+
+First stable release for Horde 5.
+
+
+-----------
+v1.0.0beta1
+-----------
+
+First beta release for Horde 5.

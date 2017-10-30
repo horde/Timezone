@@ -10,7 +10,7 @@
   <email>jan@horde.org</email>
   <active>yes</active>
  </lead>
- <date>2017-03-20</date>
+ <date>2017-10-30</date>
  <version>
   <release>1.1.1</release>
   <api>1.1.0</api>
@@ -28,6 +28,7 @@
    <dir name="doc">
     <dir name="Horde">
      <dir name="Timezone">
+      <file name="CHANGES" role="doc" />
       <file name="COPYING" role="doc" />
      </dir> <!-- /doc/Horde/Timezone -->
     </dir> <!-- /doc/Horde -->
@@ -115,6 +116,7 @@
  </dependencies>
  <phprelease>
   <filelist>
+   <install as="CHANGES" name="doc/Horde/Timezone/CHANGES" />
    <install as="COPYING" name="doc/Horde/Timezone/COPYING" />
    <install as="Horde/Timezone.php" name="lib/Horde/Timezone.php" />
    <install as="Horde/Timezone/Exception.php" name="lib/Horde/Timezone/Exception.php" />
@@ -339,7 +341,7 @@
    <stability>
     <release>stable</release>
     <api>stable</api></stability>
-   <date>2017-03-20</date>
+   <date>2017-10-30</date>
    <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
    <notes>
 * 
