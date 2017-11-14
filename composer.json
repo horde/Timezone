@@ -2,7 +2,7 @@
     "name": "horde/timezone",
     "description": "Timezone library",
     "type": "library",
-    "homepage": "https://pear.horde.org",
+    "homepage": "https://www.horde.org/libraries/Horde_Timezone",
     "license": "LGPL-2.1",
     "authors": [
         {
@@ -12,7 +12,7 @@
         }
     ],
     "version": "1.1.1",
-    "time": "2017-03-20",
+    "time": "2017-11-14",
     "repositories": [
         {
             "type": "pear",
