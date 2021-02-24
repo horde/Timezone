@@ -1,7 +1,7 @@
 {
     "name": "horde/timezone",
     "description": "Timezone library",
-    "type": "library",
+    "type": "horde-library",
     "homepage": "https://www.horde.org/libraries/Horde_Timezone",
     "license": "LGPL-2.1",
     "authors": [
@@ -11,30 +11,30 @@
             "role": "lead"
         }
     ],
-    "version": "1.1.1",
-    "time": "2017-11-11",
+    "version": "2.0.0alpha1",
+    "time": "2021-02-24",
     "repositories": [
         {
-            "type": "pear",
-            "url": "https://pear.horde.org"
+            "type": "composer",
+            "url": "https://horde-satis.maintaina.com/"
         }
     ],
     "require": {
+        "horde/horde-installer-plugin": "*",
         "php": "^5.3 || ^7",
-        "pear-pear.horde.org/Horde_Date": "^2.3",
-        "pear-pear.horde.org/Horde_Icalendar": "^2",
-        "pear-pear.horde.org/Horde_Vfs": "^2"
+        "horde/date": "^2.3",
+        "horde/icalendar": "^2",
+        "horde/vfs": "^2"
     },
     "suggest": {
-        "pear-pear.horde.org/Horde_Test": "^2.1"
-    },
-    "replace": {
-        "pear-pear.horde.org/Horde_Timezone": "1.*",
-        "pear-horde/Horde_Timezone": "1.*"
+        "horde/test": "^2.1"
     },
     "autoload": {
         "psr-0": {
             "Horde_Timezone": "lib/"
+        },
+        "psr-4": {
+            "Horde\\Timezone\\": "src/"
         }
     }
 }
