@@ -32,9 +32,6 @@
     "autoload": {
         "psr-0": {
             "Horde_Timezone": "lib/"
-        },
-        "psr-4": {
-            "Horde\\Timezone\\": "src/"
         }
     }
 }
