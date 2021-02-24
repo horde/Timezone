@@ -26,11 +26,11 @@ license:
   uri: http://www.horde.org/licenses/lgpl21
 dependencies:
   required:
-    php: ^5.3 || ^7
-    pear:
-      pear.horde.org/Horde_Date: ^2.3
-      pear.horde.org/Horde_Icalendar: ^2
-      pear.horde.org/Horde_Vfs: ^2
+    php: ^7
+    composer:
+      horde/date: ^3
+      horde/icalendar: ^3
+      horde/vfs: ^3
   optional:
-    pear:
-      pear.horde.org/Horde_Test: ^2.1
+    composer:
+      horde/test: ^3

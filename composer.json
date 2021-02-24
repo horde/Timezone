@@ -21,13 +21,13 @@
     ],
     "require": {
         "horde/horde-installer-plugin": "*",
-        "php": "^5.3 || ^7",
-        "horde/date": "^2.3",
-        "horde/icalendar": "^2",
-        "horde/vfs": "^2"
+        "php": "^7",
+        "horde/date": "^3",
+        "horde/icalendar": "^3",
+        "horde/vfs": "^3"
     },
     "suggest": {
-        "horde/test": "^2.1"
+        "horde/test": "^3"
     },
     "autoload": {
         "psr-0": {
