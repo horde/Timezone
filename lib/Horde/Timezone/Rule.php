@@ -211,6 +211,7 @@ class Horde_Timezone_Rule
                 } elseif (strpos($rule[6], '<=')) {
                     // Rule starts on a certain weekday before a certain day of
                     // month.
+                    list($weekday, $day) = explode('<=', $rule[6]);
                     for ($days = array(), $i = 1; $i <= $day; $i++) {
                         $days[] = $i;
                     }
@@ -273,7 +274,7 @@ class Horde_Timezone_Rule
             }
         } elseif (strpos($rule[6], '<=')) {
             // Rule starts on a certain weekday before a certain day of month.
-            list($weekday, $day) = explode('>=', $rule[6]);
+            list($weekday, $day) = explode('<=', $rule[6]);
             $weekdayInt = $this->_weekdays[substr($weekday, 0, 3)];
             $date = new Horde_Date(array(
                 'year'  => $year,
