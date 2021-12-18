@@ -4,11 +4,12 @@
   state:
     release: stable
     api: stable
-  date: 2017-10-20
+  date: 2021-12-18
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes:
+  notes: |
+    [mjr] Bug: 15075 Fix timezone calculation errors.
 1.1.0:
   api: 1.1.0
   state:
