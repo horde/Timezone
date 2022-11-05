@@ -6,7 +6,11 @@
  * @package    Timezone
  * @subpackage UnitTests
  */
-class Horde_Timezone_IcalendarTest extends Horde_Test_Case
+namespace Horde\Timezone;
+use Horde_Test_Case;
+use Horde_Timezone_Mock;
+
+class IcalendarTest extends Horde_Test_Case
 {
     public function testEurope()
     {

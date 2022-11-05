@@ -1,9 +1,10 @@
 {
+    "minimum-stability": "dev",
     "name": "horde/timezone",
     "description": "Timezone library",
     "type": "library",
     "homepage": "https://www.horde.org/libraries/Horde_Timezone",
-    "license": "LGPL-2.1",
+    "license": "LGPL-2.1-only",
     "authors": [
         {
             "name": "Jan Schneider",
@@ -11,26 +12,21 @@
             "role": "lead"
         }
     ],
-    "version": "1.1.1",
-    "time": "2017-11-11",
+    "time": "2021-03-13",
     "repositories": [
         {
-            "type": "pear",
-            "url": "https://pear.horde.org"
+            "type": "composer",
+            "url": "https://horde-satis.maintaina.com/"
         }
     ],
     "require": {
-        "php": "^5.3 || ^7",
-        "pear-pear.horde.org/Horde_Date": "^2.3",
-        "pear-pear.horde.org/Horde_Icalendar": "^2",
-        "pear-pear.horde.org/Horde_Vfs": "^2"
+        "php": "^7.4 || ^8",
+        "horde/date": "^3 || dev-FRAMEWORK_6_0",
+        "horde/icalendar": "^3 || dev-FRAMEWORK_6_0",
+        "horde/vfs": "^3 || dev-FRAMEWORK_6_0"
     },
     "suggest": {
-        "pear-pear.horde.org/Horde_Test": "^2.1"
-    },
-    "replace": {
-        "pear-pear.horde.org/Horde_Timezone": "1.*",
-        "pear-horde/Horde_Timezone": "1.*"
+        "horde/test": "^3 || dev-FRAMEWORK_6_0"
     },
     "autoload": {
         "psr-0": {
