@@ -1,4 +1,5 @@
 {
+    "minimum-stability": "dev",
     "name": "horde/timezone",
     "description": "Timezone library",
     "type": "library",
