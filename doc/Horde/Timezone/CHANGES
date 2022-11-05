@@ -2,6 +2,10 @@
 v2.0.0alpha4
 ------------
 
+[rla] Consolidated unit test and metadata upgrades on latest horde git master.
+[rla] Alpha Release for PHP 8.
+|+
+
 
 ------------
 v2.0.0alpha3
@@ -21,9 +25,12 @@ v2.0.0alpha1
 
 [rla] Alpha release for PHP 7.4 on composer.
 
-----------
-v1.1.1-git
-----------
+
+------
+v1.1.1
+------
+
+[mjr] Bug: 15075 Fix timezone calculation errors.
 
 
 ------
