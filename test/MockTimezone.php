@@ -1,4 +1,7 @@
 <?php
+namespace Horde\Timezone\Test;
+use Horde_Timezone;
+
 /**
  * @author     Jan Schneider <jan@horde.org>
  * @license    http://www.horde.org/licenses/lgpl21 LGPL 2.1
@@ -6,7 +9,7 @@
  * @package    Timezone
  * @subpackage UnitTests
  */
-class Horde_Timezone_Mock extends Horde_Timezone
+class MockTimezone extends Horde_Timezone
 {
     protected $_zone;
 

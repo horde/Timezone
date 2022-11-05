@@ -1,5 +1,4 @@
 {
-    "minimum-stability": "dev",
     "name": "horde/timezone",
     "description": "Timezone library",
     "type": "library",
@@ -45,5 +44,6 @@
         "allow-plugins": {
             "horde/horde-installer-plugin": true
         }
-    }
+    },
+    "minimum-stability": "dev"
 }
