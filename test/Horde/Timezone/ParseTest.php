@@ -10,6 +10,8 @@ class Horde_Timezone_ParseTest extends Horde_Test_Case
 {
     public function testBug13455()
     {
+        $this->expectNotToPerformAssertions();
+
         $tz = new Horde_Timezone_Mock('europe_jersey');
         $tz->getZone('Europe/Dublin')->toVtimezone();
     }
