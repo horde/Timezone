@@ -1,5 +1,7 @@
 <?php
+
 namespace Horde\Timezone\Test\Unnamespaced;
+
 use Horde\Test\TestCase;
 use Horde\Timezone\Test\MockTimezone;
 use Horde_Icalendar_Vtimezone;
@@ -10,6 +12,7 @@ use Horde_Icalendar_Vtimezone;
  * @category   Horde
  * @package    Timezone
  * @subpackage UnitTests
+ * @coversNothing
  */
 class ParseTest extends TestCase
 {

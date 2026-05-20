@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Copyright 2011-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2011-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (LGPL). If you
  * did not receive this file, see http://www.horde.org/licenses/lgpl21.
@@ -37,7 +38,7 @@ class Horde_Timezone_Zone
      *
      * @var array
      */
-    protected $_info = array();
+    protected $_info = [];
 
     /**
      * Constructor.
@@ -158,7 +159,7 @@ class Horde_Timezone_Zone
         $date = array_slice($this->_info[$line], 3);
         $year = $date[0];
         $month = isset($date[1]) ? Horde_Timezone::getMonth($date[1]) : 1;
-        $day = isset($date[2]) ? $date[2] : 1;
+        $day = $date[2] ?? 1;
         $time = isset($date[3]) && $date[3] != '-' ? $date[3] : 0;
         preg_match('/(\d+)(?::(\d+))?(?::(\d+))?(w|s|u)?/', $time, $match);
         if (!isset($match[2])) {
@@ -168,26 +169,27 @@ class Horde_Timezone_Zone
             $match[3] = 0;
         }
         switch (substr($time, -1)) {
-        case 's':
-            // Standard time. Not sure what to do about this.
-            break;
-        case 'u':
-            // UTC, add offset.
-            $offset = $this->_getOffset($line);
-            $factor = $offset['ahead'] ? 1 : -1;
-            $match[1] += $factor * $offset['hour'];
-            $match[2] += $factor * $offset['minute'];
-        case 'w':
-        default:
-            // Wall time, nothing to do.
-            break;
+            case 's':
+                // Standard time. Not sure what to do about this.
+                break;
+            case 'u':
+                // UTC, add offset.
+                $offset = $this->_getOffset($line);
+                $factor = $offset['ahead'] ? 1 : -1;
+                $match[1] += $factor * $offset['hour'];
+                $match[2] += $factor * $offset['minute'];
+                // no break
+            case 'w':
+            default:
+                // Wall time, nothing to do.
+                break;
         }
-        return new Horde_Date(array('year'  => $year,
-                                    'month' => $month,
-                                    'mday'  => $day,
-                                    'hour'  => $match[1],
-                                    'min'   => $match[2],
-                                    'sec'   => $match[3]));
+        return new Horde_Date(['year'  => $year,
+            'month' => $month,
+            'mday'  => $day,
+            'hour'  => $match[1],
+            'min'   => $match[2],
+            'sec'   => $match[3]]);
     }
 
     /**
@@ -201,8 +203,8 @@ class Horde_Timezone_Zone
     {
         $offset = $this->_info[$line][0];
         preg_match('/(-)?(\d+):(\d+)/', $offset, $match);
-        return array('ahead'  => $match[1] != '-',
-                     'hour'   => $match[2],
-                     'minute' => $match[3]);
+        return ['ahead'  => $match[1] != '-',
+            'hour'   => $match[2],
+            'minute' => $match[3]];
     }
 }
