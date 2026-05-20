@@ -1,6 +1,9 @@
 <?php
+
+use Horde\Util\Util;
+
 /**
- * Copyright 2011-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2011-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (LGPL). If you
  * did not receive this file, see http://www.horde.org/licenses/lgpl21.
@@ -49,39 +52,39 @@ class Horde_Timezone
      *
      * @var array
      */
-    protected $_zones = array();
+    protected $_zones = [];
 
     /**
      * List of all Rule entries parsed into Horde_Timezone_Rule objects.
      *
      * @var array
      */
-    protected $_rules = array();
+    protected $_rules = [];
 
     /**
      * Alias map of all Link entries.
      *
      * @var array
      */
-    protected $_links = array();
+    protected $_links = [];
 
     /**
      * List to map month descriptions used in the timezone database.
      *
      * @var array
      */
-    protected static $_months = array('Jan' => 1,
-                                      'Feb' => 2,
-                                      'Mar' => 3,
-                                      'Apr' => 4,
-                                      'May' => 5,
-                                      'Jun' => 6,
-                                      'Jul' => 7,
-                                      'Aug' => 8,
-                                      'Sep' => 9,
-                                      'Oct' => 10,
-                                      'Nov' => 11,
-                                      'Dec' => 12);
+    protected static $_months = ['Jan' => 1,
+        'Feb' => 2,
+        'Mar' => 3,
+        'Apr' => 4,
+        'May' => 5,
+        'Jun' => 6,
+        'Jul' => 7,
+        'Aug' => 8,
+        'Sep' => 9,
+        'Oct' => 10,
+        'Nov' => 11,
+        'Dec' => 12];
 
     /**
      * Constructor.
@@ -89,21 +92,27 @@ class Horde_Timezone
      * @param array $params  List of optional class parameters. Possible
      *                       options:
      *                       - location: (string) Location of the timezone
-     *                         database, defaults to
-     *                         ftp.iana.org/tz/tzdata-latest.tar.gz.
+     *                         database. Can be a URL (ftp:// or http://) for
+     *                         downloading a tarball, a file:// path to a local
+     *                         tarball, or a directory path containing
+     *                         pre-extracted Olson timezone source files.
+     *                         Defaults to ftp.iana.org/tz/tzdata-latest.tar.gz.
      *                       - client: (Horde_Http_Client) A preconfigured
      *                         HTTP client for downloading via HTTP.
      *                       - temp: (string) Temporary directory.
      *                       - cache: (Horde_Cache) A cache object.
      *                       - cachettl: (integer) Cache lifetime in seconds,
      *                         defaults to 7 days.
+     *                       - extractor: (Horde_Timezone_Extractor) An explicit
+     *                         extractor instance, bypassing auto-detection.
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
         $this->_params = array_merge(
-            array('location' => 'ftp://ftp.iana.org/tz/tzdata-latest.tar.gz',
-                  'cachettl' => 604800),
-            $params);
+            ['location' => 'ftp://ftp.iana.org/tz/tzdata-latest.tar.gz',
+                'cachettl' => 604800],
+            $params
+        );
     }
 
     /**
@@ -134,7 +143,7 @@ class Horde_Timezone
             $this->_extractAndParse();
         }
         $zone = Horde_Date::getTimezoneAlias($zone);
-        $alias = isset($this->_links[$zone]) ? $this->_links[$zone] : $zone;
+        $alias = $this->_links[$zone] ?? $zone;
         if (!isset($this->_zones[$alias])) {
             throw new Horde_Timezone_Exception(sprintf('Timezone %s not found', $zone));
         }
@@ -173,7 +182,7 @@ class Horde_Timezone
         if (!isset($url['scheme'])) {
             throw new Horde_Timezone_Exception('"location" parameter is missing an URL scheme.');
         }
-        if (!in_array($url['scheme'], array('http', 'ftp', 'file'))) {
+        if (!in_array($url['scheme'], ['http', 'ftp', 'file'])) {
             throw new Horde_Timezone_Exception(sprintf('Unsupported URL scheme "%s"', $url['scheme']));
         }
         if ($url['scheme'] == 'http') {
@@ -183,25 +192,29 @@ class Horde_Timezone
                 $client = new Horde_Http_Client();
             }
             $response = $client->get($this->_params['location']);
-            $this->_tmpfile = Horde_Util::getTempFile(
-                '', true,
-                isset($this->_params['temp']) ? $this->_params['temp'] : '');
+            $this->_tmpfile = Util::getTempFile(
+                '',
+                true,
+                $this->_params['temp'] ?? ''
+            );
             stream_copy_to_stream($response->getStream(), fopen($this->_tmpfile, 'w'));
             return;
         }
         if ($url['scheme'] == 'ftp') {
             try {
-                $vfs = new Horde_Vfs_Ftp(array('hostspec' => $url['host'],
-                                               'username' => 'anonymous',
-                                               'password' => 'anonymous',
-                                               'pasv' => true));
-                $this->_tmpfile = $vfs->readFile(dirname($url['path']),
-                                                 basename($url['path']));
+                $vfs = new Horde_Vfs_Ftp(['hostspec' => $url['host'],
+                    'username' => 'anonymous',
+                    'password' => 'anonymous',
+                    'pasv' => true]);
+                $this->_tmpfile = $vfs->readFile(
+                    dirname($url['path']),
+                    basename($url['path'])
+                );
             } catch (Horde_Vfs_Exception $e) {
                 throw new Horde_Timezone_Exception($e);
             }
         } else {
-            $this->_tmpfile = $this->_params['location'];
+            $this->_tmpfile = $url['path'];
             unset($php_errormsg);
             if (!is_readable($this->_tmpfile)) {
                 $e = new Horde_Timezone_Exception(sprintf('Unable to open file %s.', $this->_params['location']));
@@ -223,7 +236,8 @@ class Horde_Timezone
             $result = @unserialize(
                 $this->_params['cache']->get(
                     'horde_timezone',
-                    $this->_params['cachettl'])
+                    $this->_params['cachettl']
+                )
             );
             if ($result) {
                 $this->_zones = $result['zones'];
@@ -233,27 +247,85 @@ class Horde_Timezone
             }
         }
 
-        if (!$this->_tmpfile) {
-            $this->_download();
-        }
-        $tar = new Archive_Tar($this->_tmpfile);
-        foreach ($tar->listContent() as $file) {
-            if ($file['typeflag'] != 0) {
-                continue;
+        $source = $this->_getSource();
+        $extractor = $this->_getExtractor($source);
+
+        foreach ($extractor->extractFiles($source) as $content) {
+            if ($content !== false && $content !== '') {
+                $this->_parse($content);
             }
-            $this->_parse($tar->extractInString($file['filename']));
         }
 
         if (isset($this->_params['cache'])) {
             $this->_params['cache']->set(
                 'horde_timezone',
-                serialize(array(
+                serialize([
                     'zones' => $this->_zones,
                     'rules' => $this->_rules,
-                    'links' => $this->_links
-                )),
-                $this->_params['cachettl']);
+                    'links' => $this->_links,
+                ]),
+                $this->_params['cachettl']
+            );
         }
+    }
+
+    /**
+     * Returns the source path for timezone data.
+     *
+     * If the location parameter points to a directory, returns it directly
+     * for use with the directory extractor. Otherwise downloads the tarball
+     * and returns the temp file path.
+     *
+     * @return string A file path (tarball) or directory path.
+     */
+    protected function _getSource()
+    {
+        if (is_dir($this->_params['location'])) {
+            return $this->_params['location'];
+        }
+
+        if (strpos($this->_params['location'], 'file://') === 0) {
+            $path = substr($this->_params['location'], 7);
+            if (is_dir($path)) {
+                return $path;
+            }
+        }
+
+        if (!$this->_tmpfile) {
+            $this->_download();
+        }
+
+        return $this->_tmpfile;
+    }
+
+    /**
+     * Returns the appropriate extractor for the given source.
+     *
+     * Selection order:
+     * - Directory source: Horde_Timezone_Extractor_Directory
+     * - Tarball source with PharData available: Horde_Timezone_Extractor_PharData
+     * - Tarball source without PharData: Horde_Timezone_Extractor_ArchiveTar
+     *
+     * @param string $source  A file or directory path.
+     *
+     * @return Horde_Timezone_Extractor
+     * @throws Horde_Timezone_Exception
+     */
+    protected function _getExtractor($source)
+    {
+        if (isset($this->_params['extractor'])) {
+            return $this->_params['extractor'];
+        }
+
+        if (is_dir($source)) {
+            return new Horde_Timezone_Extractor_Directory();
+        }
+
+        if (class_exists('PharData')) {
+            return new Horde_Timezone_Extractor_PharData();
+        }
+
+        return new Horde_Timezone_Extractor_ArchiveTar();
     }
 
     /**
@@ -273,31 +345,32 @@ class Horde_Timezone
             }
             $column = preg_split('/\s+/', preg_replace('/\s*#.*$/', '', $line));
             switch ($column[0]) {
-            case 'Rule':
-                if (!isset($this->_rules[$column[1]])) {
-                    $this->_rules[$column[1]] = new Horde_Timezone_Rule($column[1]);
-                }
-                $this->_rules[$column[1]]->add($column);
-                $zone = null;
-                break;
-
-            case 'Link':
-                $this->_links[$column[2]] = $column[1];
-                $zone = null;
-                break;
-
-            case 'Zone':
-                $zone = $column[1];
-                $this->_zones[$zone] = new Horde_Timezone_Zone($zone, $this);
-                array_splice($column, 0, 2);
-                // Fall through.
-
-            default:
-                if (empty($zone) || !isset($this->_zones[$zone])) {
+                case 'Rule':
+                    if (!isset($this->_rules[$column[1]])) {
+                        $this->_rules[$column[1]] = new Horde_Timezone_Rule($column[1]);
+                    }
+                    $this->_rules[$column[1]]->add($column);
+                    $zone = null;
                     break;
-                }
-                $this->_zones[$zone]->add($column);
-                break;
+
+                case 'Link':
+                    $this->_links[$column[2]] = $column[1];
+                    $zone = null;
+                    break;
+
+                case 'Zone':
+                    $zone = $column[1];
+                    $this->_zones[$zone] = new Horde_Timezone_Zone($zone, $this);
+                    array_splice($column, 0, 2);
+                    // Fall through.
+
+                    // no break
+                default:
+                    if (empty($zone) || !isset($this->_zones[$zone])) {
+                        break;
+                    }
+                    $this->_zones[$zone]->add($column);
+                    break;
             }
         }
     }
