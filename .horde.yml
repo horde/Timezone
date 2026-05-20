@@ -26,14 +26,22 @@ license:
   uri: http://www.horde.org/licenses/lgpl21
 dependencies:
   required:
-    php: ^7.4 || ^8
+    php: ^8.1
     composer:
       horde/date: ^3
+      horde/exception: ^3
       horde/icalendar: ^3
       horde/vfs: ^3
   optional:
     composer:
-      horde/test: ^3
+      pear/archive_tar: '*'
+      psr/simple-cache: ^1 || ^2 || ^3
+    ext:
+      phar: '*'
   dev:
     composer:
-      horde/test: ^3
+      pear/archive_tar: ^1.6
+      psr/simple-cache: ^1 || ^2 || ^3
+keywords:
+  - olsen
+vendor: horde

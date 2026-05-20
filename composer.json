@@ -11,39 +11,42 @@
             "role": "lead"
         }
     ],
-    "time": "2022-11-05",
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://horde-satis.maintaina.com"
-        }
+    "keywords": [
+        "olsen"
     ],
+    "time": "2026-05-20",
+    "repositories": [],
     "require": {
-        "php": "^7.4 || ^8",
-        "horde/date": "^3 || dev-FRAMEWORK_6_0",
-        "horde/icalendar": "^3 || dev-FRAMEWORK_6_0",
-        "horde/vfs": "^3 || dev-FRAMEWORK_6_0"
+        "php": "^8.1",
+        "horde/date": "^3",
+        "horde/exception": "^3",
+        "horde/icalendar": "^3",
+        "horde/vfs": "^3"
     },
     "require-dev": {
-        "horde/test": "^3 || dev-FRAMEWORK_6_0"
+        "pear/archive_tar": "^1.6",
+        "psr/simple-cache": "^1 || ^2 || ^3"
     },
     "suggest": {
-        "horde/test": "^3 || dev-FRAMEWORK_6_0"
+        "pear/archive_tar": "*",
+        "psr/simple-cache": "^1 || ^2 || ^3",
+        "ext-phar": "*"
     },
     "autoload": {
         "psr-0": {
             "Horde_Timezone": "lib/"
+        },
+        "psr-4": {
+            "Horde\\Timezone\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Horde\\Timezone\\Test\\": "test/"
+            "Horde\\Timezone\\Test\\": "test/",
+            "Horde\\Timezone\\Test\\Fixtures\\": "test/fixtures/"
         }
     },
     "config": {
-        "allow-plugins": {
-            "horde/horde-installer-plugin": true
-        }
-    },
-    "minimum-stability": "dev"
+        "allow-plugins": {}
+    }
 }
