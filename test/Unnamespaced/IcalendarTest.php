@@ -1,5 +1,7 @@
 <?php
+
 namespace Horde\Timezone\Test\Unnamespaced;
+
 use Horde\Test\TestCase;
 use Horde\Timezone\Test\MockTimezone;
 
@@ -9,6 +11,7 @@ use Horde\Timezone\Test\MockTimezone;
  * @category   Horde
  * @package    Timezone
  * @subpackage UnitTests
+ * @coversNothing
  */
 class IcalendarTest extends TestCase
 {

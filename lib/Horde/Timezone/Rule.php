@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Class representing a set of "Rule" timezone database entries of the
  * same name.
  *
- * Copyright 2011-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2011-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (LGPL). If you
  * did not receive this file, see http://www.horde.org/licenses/lgpl21.
@@ -25,20 +26,20 @@ class Horde_Timezone_Rule
      *
      * @var array
      */
-    protected $_rules = array();
+    protected $_rules = [];
 
     /**
      * List to map weekday descriptions used in the timezone database.
      *
      * @var array
      */
-    protected $_weekdays = array('Mon' => Horde_Date::DATE_MONDAY,
-                                 'Tue' => Horde_Date::DATE_TUESDAY,
-                                 'Wed' => Horde_Date::DATE_WEDNESDAY,
-                                 'Thu' => Horde_Date::DATE_THURSDAY,
-                                 'Fri' => Horde_Date::DATE_FRIDAY,
-                                 'Sat' => Horde_Date::DATE_SATURDAY,
-                                 'Sun' => Horde_Date::DATE_SUNDAY);
+    protected $_weekdays = ['Mon' => Horde_Date::DATE_MONDAY,
+        'Tue' => Horde_Date::DATE_TUESDAY,
+        'Wed' => Horde_Date::DATE_WEDNESDAY,
+        'Thu' => Horde_Date::DATE_THURSDAY,
+        'Fri' => Horde_Date::DATE_FRIDAY,
+        'Sat' => Horde_Date::DATE_SATURDAY,
+        'Sun' => Horde_Date::DATE_SUNDAY];
 
     /**
      * Constructor.
@@ -76,10 +77,14 @@ class Horde_Timezone_Rule
      * @param Horde_Date $end                End of the period to add rules
      *                                       for.
      */
-    public function addRules(Horde_Icalendar_Vtimezone $tz, $tzid, $name,
-                             $startOffset,
-                             Horde_Date $start, Horde_Date $end = null)
-    {
+    public function addRules(
+        Horde_Icalendar_Vtimezone $tz,
+        $tzid,
+        $name,
+        $startOffset,
+        Horde_Date $start,
+        ?Horde_Date $end = null
+    ) {
         foreach ($this->_rules as $ruleNo => $rule) {
             // The rule items are:
             // 0: "Rule"
@@ -101,8 +106,8 @@ class Horde_Timezone_Rule
                 // TO is not "maximum" and is before the searched period
                 continue;
             }
-            if ($end &&
-                $rule[2][0] != 'm' && $rule[2] > $end->year) {
+            if ($end
+                && $rule[2][0] != 'm' && $rule[2] > $end->year) {
                 // FROM is not "minimum" and is after the searched period
                 break;
             }
@@ -116,7 +121,7 @@ class Horde_Timezone_Rule
             // The time of rule start.
             preg_match('/(\d+)(?::(\d+))?(?::(\d+))?([wsguz])?/', $rule[7], $match);
             $hour = $match[1];
-            $minute = isset($match[2]) ? $match[2] : 0;
+            $minute = $match[2] ?? 0;
             if (!isset($match[4])) {
                 $modifier = 'w';
             } elseif ($match[4] == 'g' || $match[4] == 'z') {
@@ -131,7 +136,9 @@ class Horde_Timezone_Rule
             $first->min = $minute;
 
             $previousOffset = $this->_findPreviousOffset(
-                $first, $ruleNo, $startOffset
+                $first,
+                $ruleNo,
+                $startOffset
             );
             if ($rule[8] == 0) {
                 $component = new Horde_Icalendar_Standard();
@@ -141,20 +148,21 @@ class Horde_Timezone_Rule
                 $component = new Horde_Icalendar_Daylight();
                 $component->setAttribute('TZOFFSETFROM', $previousOffset);
                 $component->setAttribute(
-                    'TZOFFSETTO', $this->_getOffset($startOffset, $rule[8])
+                    'TZOFFSETTO',
+                    $this->_getOffset($startOffset, $rule[8])
                 );
             }
             switch ($modifier) {
-            case 's':
-                $first->hour += ($previousOffset['ahead'] ? 1 : -1) * $previousOffset['hour']
-                    - ($startOffset['ahead'] ? 1 : -1) * $startOffset['hour'];
-                $first->min += ($previousOffset['ahead'] ? 1 : -1) * $previousOffset['minute']
-                    - ($startOffset['ahead'] ? 1 : -1) * $startOffset['minute'];
-                break;
-            case 'u':
-                $first->hour += ($previousOffset['ahead'] ? 1 : -1) * $previousOffset['hour'];
-                $first->min += ($previousOffset['ahead'] ? 1 : -1) * $previousOffset['minute'];
-                break;
+                case 's':
+                    $first->hour += ($previousOffset['ahead'] ? 1 : -1) * $previousOffset['hour']
+                        - ($startOffset['ahead'] ? 1 : -1) * $startOffset['hour'];
+                    $first->min += ($previousOffset['ahead'] ? 1 : -1) * $previousOffset['minute']
+                        - ($startOffset['ahead'] ? 1 : -1) * $startOffset['minute'];
+                    break;
+                case 'u':
+                    $first->hour += ($previousOffset['ahead'] ? 1 : -1) * $previousOffset['hour'];
+                    $first->min += ($previousOffset['ahead'] ? 1 : -1) * $previousOffset['minute'];
+                    break;
             }
             $component->setAttribute('DTSTART', $first);
 
@@ -166,14 +174,14 @@ class Horde_Timezone_Rule
                 $last->hour = $hour;
                 $last->min = $minute;
                 switch ($modifier) {
-                case 's':
-                    $last->hour -= ($startOffset['ahead'] ? 1 : -1) * $startOffset['hour'];
-                    $last->min -= ($startOffset['ahead'] ? 1 : -1) * $startOffset['minute'];
-                    break;
-                case 'w':
-                    $last->hour -= ($previousOffset['ahead'] ? 1 : -1) * $previousOffset['hour'];
-                    $last->min -= ($previousOffset['ahead'] ? 1 : -1) * $previousOffset['minute'];
-                    break;
+                    case 's':
+                        $last->hour -= ($startOffset['ahead'] ? 1 : -1) * $startOffset['hour'];
+                        $last->min -= ($startOffset['ahead'] ? 1 : -1) * $startOffset['minute'];
+                        break;
+                    case 'w':
+                        $last->hour -= ($previousOffset['ahead'] ? 1 : -1) * $previousOffset['hour'];
+                        $last->min -= ($previousOffset['ahead'] ? 1 : -1) * $previousOffset['minute'];
+                        break;
                 }
                 $until = ';UNTIL=' . $last->format('Ymd\THis') . 'Z';
             }
@@ -185,21 +193,23 @@ class Horde_Timezone_Rule
                         'RRULE',
                         'FREQ=YEARLY;BYMONTH=' . $month
                         . ';BYMONTHDAY=' . $rule[6]
-                        . $until);
+                        . $until
+                    );
                 } elseif (substr($rule[6], 0, 4) == 'last') {
                     // Rule starts on the last of a certain weekday of the month.
                     $component->setAttribute(
                         'RRULE',
                         'FREQ=YEARLY;BYDAY=-1'
                         . Horde_String::upper(substr($rule[6], 4, 2))
-                        . ';BYMONTH=' . $month . $until);
+                        . ';BYMONTH=' . $month . $until
+                    );
                 } elseif (strpos($rule[6], '>=')) {
                     // Rule starts on a certain weekday after a certain day of
                     // month.
-                    list($weekday, $day) = explode('>=', $rule[6]);
-                    for ($days = array(), $i = $day, $lastDay = min(Horde_Date_Utils::daysInMonth($month, $rule[2]), $i + 6);
-                         $day > 1 && $i <= $lastDay;
-                         $i++) {
+                    [$weekday, $day] = explode('>=', $rule[6]);
+                    for ($days = [], $i = $day, $lastDay = min(Horde_Date_Utils::daysInMonth($month, $rule[2]), $i + 6);
+                        $day > 1 && $i <= $lastDay;
+                        $i++) {
                         $days[] = $i;
                     }
                     $component->setAttribute(
@@ -207,12 +217,13 @@ class Horde_Timezone_Rule
                         'FREQ=YEARLY;BYMONTH=' . $month
                         . ($days ? (';BYMONTHDAY=' . implode(',', $days)) : '')
                         . ';BYDAY=1' . Horde_String::upper(substr($weekday, 0, 2))
-                        . $until);
+                        . $until
+                    );
                 } elseif (strpos($rule[6], '<=')) {
                     // Rule starts on a certain weekday before a certain day of
                     // month.
-                    list($weekday, $day) = explode('<=', $rule[6]);
-                    for ($days = array(), $i = 1; $i <= $day; $i++) {
+                    [$weekday, $day] = explode('<=', $rule[6]);
+                    for ($days = [], $i = 1; $i <= $day; $i++) {
                         $days[] = $i;
                     }
                     $component->setAttribute(
@@ -220,7 +231,8 @@ class Horde_Timezone_Rule
                         'FREQ=YEARLY;BYMONTH=' . $month
                         . ';BYMONTHDAY=' . implode(',', $days)
                         . ';BYDAY=-1' . Horde_String::upper(substr($weekday, 0, 2))
-                        . $until);
+                        . $until
+                    );
                 } else {
                     continue;
                 }
@@ -244,43 +256,43 @@ class Horde_Timezone_Rule
 
         if (preg_match('/^\d+$/', $rule[6])) {
             // Rule starts on a specific date.
-            $date = new Horde_Date(array(
+            $date = new Horde_Date([
                 'year'  => $year,
                 'month' => $month,
                 'mday'  => $rule[6],
-            ));
+            ]);
         } elseif (substr($rule[6], 0, 4) == 'last') {
             // Rule starts on the last of a certain weekday of the month.
             $weekday = $this->_weekdays[substr($rule[6], 4, 3)];
-            $date = new Horde_Date(array(
+            $date = new Horde_Date([
                 'year'  => $year,
                 'month' => $month,
                 'mday'  => Horde_Date_Utils::daysInMonth($month, $rule[2]),
-            ));
+            ]);
             while ($date->dayOfWeek() != $weekday) {
                 $date->mday--;
             }
         } elseif (strpos($rule[6], '>=')) {
             // Rule starts on a certain weekday after a certain day of month.
-            list($weekday, $day) = explode('>=', $rule[6]);
+            [$weekday, $day] = explode('>=', $rule[6]);
             $weekdayInt = $this->_weekdays[substr($weekday, 0, 3)];
-            $date = new Horde_Date(array(
+            $date = new Horde_Date([
                 'year'  => $year,
                 'month' => $month,
                 'mday'  => $day,
-            ));
+            ]);
             while ($date->dayOfWeek() != $weekdayInt) {
                 $date->mday++;
             }
         } elseif (strpos($rule[6], '<=')) {
             // Rule starts on a certain weekday before a certain day of month.
-            list($weekday, $day) = explode('<=', $rule[6]);
+            [$weekday, $day] = explode('<=', $rule[6]);
             $weekdayInt = $this->_weekdays[substr($weekday, 0, 3)];
-            $date = new Horde_Date(array(
+            $date = new Horde_Date([
                 'year'  => $year,
                 'month' => $month,
                 'mday'  => $day,
-            ));
+            ]);
             while ($date->dayOfWeek() != $weekdayInt) {
                 $date->mday--;
             }
@@ -329,13 +341,13 @@ class Horde_Timezone_Rule
                 ? $this->_rules[$i][2]
                 : $this->_rules[$i][3];
             if ($end[0] != 'm') {
-                if (!is_null($diffYear) &&
-                    ($date->year - $end) > $diffYear) {
+                if (!is_null($diffYear)
+                    && ($date->year - $end) > $diffYear) {
                     // We already found a rule that ends closer (by year)
                     continue;
                 }
-                if (is_null($diffYear) ||
-                    ($date->year - $end) < $diffYear) {
+                if (is_null($diffYear)
+                    || ($date->year - $end) < $diffYear) {
                     // This rule ends closer.
                     $diffYear = $date->year - $end;
                     $diff = $this->_getDiff($i, $date, min($date->year, $end));
@@ -368,9 +380,7 @@ class Horde_Timezone_Rule
         return $offset;
     }
 
-    protected function _setTime($date, $hour, $minute, $modifier, $utc = false)
-    {
-    }
+    protected function _setTime($date, $hour, $minute, $modifier, $utc = false) {}
 
     /**
      * Helper method to calculate the difference in days between a date and the
@@ -406,7 +416,7 @@ class Horde_Timezone_Rule
         $start = ($start['ahead'] ? 1 : -1) * (60 * $start['hour'] + $start['minute']);
         preg_match('/(-)?(\d+):(\d+)/', $new, $match);
         $start += ($match[1] == '-' ? -1 : 1) * (60 * $match[2] + $match[3]);
-        $result = array('ahead' => $start > 0);
+        $result = ['ahead' => $start > 0];
         $start = abs($start);
         $result['hour'] = floor($start / 60);
         $result['minute'] = $start % 60;

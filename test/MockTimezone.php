@@ -1,5 +1,7 @@
 <?php
+
 namespace Horde\Timezone\Test;
+
 use Horde_Timezone;
 
 /**
@@ -19,9 +21,7 @@ class MockTimezone extends Horde_Timezone
         $this->_zone = $zone;
     }
 
-    protected function _download()
-    {
-    }
+    protected function _download() {}
 
     protected function _extractAndParse()
     {

@@ -1,5 +1,7 @@
 <?php
+
 use Horde\Test\Bootstrap;
+
 $candidates = [
     dirname(__FILE__, 2) . '/vendor/autoload.php',
     dirname(__FILE__, 4) . '/autoload.php',
