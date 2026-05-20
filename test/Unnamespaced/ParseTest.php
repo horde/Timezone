@@ -2,9 +2,10 @@
 
 namespace Horde\Timezone\Test\Unnamespaced;
 
-use Horde\Test\TestCase;
 use Horde\Timezone\Test\MockTimezone;
 use Horde_Icalendar_Vtimezone;
+use PHPUnit\Framework\Attributes\CoversNothing;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author     Jan Schneider <jan@horde.org>
@@ -12,8 +13,8 @@ use Horde_Icalendar_Vtimezone;
  * @category   Horde
  * @package    Timezone
  * @subpackage UnitTests
- * @coversNothing
  */
+#[CoversNothing]
 class ParseTest extends TestCase
 {
     public function testBug13455()
