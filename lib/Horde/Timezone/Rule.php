@@ -12,6 +12,9 @@
  * @author  Jan Schneider <jan@horde.org>
  * @package Timezone
  */
+
+use Horde\Util\HordeString;
+
 class Horde_Timezone_Rule
 {
     /**
@@ -200,7 +203,7 @@ class Horde_Timezone_Rule
                     $component->setAttribute(
                         'RRULE',
                         'FREQ=YEARLY;BYDAY=-1'
-                        . Horde_String::upper(substr($rule[6], 4, 2))
+                        . HordeString::upper(substr($rule[6], 4, 2))
                         . ';BYMONTH=' . $month . $until
                     );
                 } elseif (strpos($rule[6], '>=')) {
@@ -216,7 +219,7 @@ class Horde_Timezone_Rule
                         'RRULE',
                         'FREQ=YEARLY;BYMONTH=' . $month
                         . ($days ? (';BYMONTHDAY=' . implode(',', $days)) : '')
-                        . ';BYDAY=1' . Horde_String::upper(substr($weekday, 0, 2))
+                        . ';BYDAY=1' . HordeString::upper(substr($weekday, 0, 2))
                         . $until
                     );
                 } elseif (strpos($rule[6], '<=')) {
@@ -230,7 +233,7 @@ class Horde_Timezone_Rule
                         'RRULE',
                         'FREQ=YEARLY;BYMONTH=' . $month
                         . ';BYMONTHDAY=' . implode(',', $days)
-                        . ';BYDAY=-1' . Horde_String::upper(substr($weekday, 0, 2))
+                        . ';BYDAY=-1' . HordeString::upper(substr($weekday, 0, 2))
                         . $until
                     );
                 } else {
