@@ -9,7 +9,6 @@
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
   notes: |+
-    
 2.0.0alpha4:
   api: 2.0.0alpha1
   state:
@@ -54,6 +53,24 @@
     uri: http://www.horde.org/licenses/lgpl21
   notes: |
     [rla] Alpha release for PHP 7.4 on composer.
+2.0.0-beta1:
+  api: 2.0.0-beta1
+  state:
+    release: beta
+    api: beta
+  date: 2026-05-21
+  license:
+    identifier: LGPL-2.1-only
+    uri: https://spdx.org/licenses/LGPL-2.1-only.html
+  notes: |-
+    chore: Update metadata, bump PHP version requirement, make archive_tar optional
+    docs: UPGRADING and README
+    refactor: Use PSR-4 HordeString
+    refactor: PSR-4 and typesafe re-implementation
+    style: php-cs-fixer
+    feat: Prefer phar extension over archive/tar and guard against incompatible archive/tar versions
+    Modernize unit tests. However 4 test cases are failing.
+    Development mode for Timezone-2.0.0alpha5
 1.1.1:
   api: 1.1.0
   state:
@@ -203,17 +220,6 @@
     uri: http://www.horde.org/licenses/lgpl21
   notes: |
     [jan] Fix notice when parsing Etc/UTC rules.
-1.0.0:
-  api: 1.0.0
-  state:
-    release: stable
-    api: stable
-  date: 2012-10-30
-  license:
-    identifier: LGPL-2.1
-    uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    First stable release for Horde 5.
 1.0.0beta1:
   api: 1.0.0beta1
   state:
@@ -225,3 +231,14 @@
     uri: http://www.horde.org/licenses/lgpl21
   notes: |
     First beta release for Horde 5.
+1.0.0:
+  api: 1.0.0
+  state:
+    release: stable
+    api: stable
+  date: 2012-10-30
+  license:
+    identifier: LGPL-2.1
+    uri: http://www.horde.org/licenses/lgpl21
+  notes: |
+    First stable release for Horde 5.
