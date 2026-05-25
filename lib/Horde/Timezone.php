@@ -198,9 +198,7 @@ class Horde_Timezone
                 $this->_params['temp'] ?? ''
             );
             stream_copy_to_stream($response->getStream(), fopen($this->_tmpfile, 'w'));
-            return;
-        }
-        if ($url['scheme'] == 'ftp') {
+        } elseif ($url['scheme'] == 'ftp') {
             try {
                 $vfs = new Horde_Vfs_Ftp(['hostspec' => $url['host'],
                     'username' => 'anonymous',
@@ -223,8 +221,48 @@ class Horde_Timezone
                 }
                 throw $e;
             }
+            return;
         }
 
+        // PharData requires a recognized archive extension in the filename.
+        // Temp files from getTempFile/VFS have no extension, so rename.
+        $ext = $this->_getArchiveExtension($url['path']);
+        if ($ext !== '') {
+            $target = $this->_tmpfile . $ext;
+            rename($this->_tmpfile, $target);
+            $this->_tmpfile = $target;
+            Util::deleteAtShutdown($target);
+        }
+    }
+
+    /**
+     * Derives the archive extension from a URL path.
+     *
+     * @param string $path  The URL path component (e.g. /tz/tzdata-latest.tar.gz).
+     *
+     * @return string  The extension including dot (e.g. ".tar.gz") or empty string.
+     */
+    protected function _getArchiveExtension(string $path): string
+    {
+        $basename = basename($path);
+
+        if (preg_match('/(\\.tar\\.gz|\\.tar\\.bz2|\\.tgz|\\.tar)$/i', $basename, $m)) {
+            return $m[1];
+        }
+
+        return '';
+    }
+
+    /**
+     * Checks whether a file path has an extension that PharData can handle.
+     *
+     * @param string $path  A file path.
+     *
+     * @return bool
+     */
+    protected function _hasPharCompatibleExtension(string $path): bool
+    {
+        return $this->_getArchiveExtension($path) !== '';
     }
 
     /**
@@ -321,7 +359,7 @@ class Horde_Timezone
             return new Horde_Timezone_Extractor_Directory();
         }
 
-        if (class_exists('PharData')) {
+        if (class_exists('PharData') && $this->_hasPharCompatibleExtension($source)) {
             return new Horde_Timezone_Extractor_PharData();
         }
 
