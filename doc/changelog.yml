@@ -71,6 +71,18 @@
     feat: Prefer phar extension over archive/tar and guard against incompatible archive/tar versions
     Modernize unit tests. However 4 test cases are failing.
     Development mode for Timezone-2.0.0alpha5
+2.0.0-RC1:
+  api: 2.0.0-RC1
+  state:
+    release: RC
+    api: RC
+  date: 2026-05-25
+  license:
+    identifier: LGPL-2.1-only
+    uri: https://spdx.org/licenses/LGPL-2.1-only.html
+  notes: |-
+    fix(timezone): rename temp files with archive extension for PharData
+    chore: Update workflow dependency
 1.1.1:
   api: 1.1.0
   state:
