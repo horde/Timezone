@@ -171,10 +171,15 @@ class TimezoneDatabase implements RuleProviderInterface
             return new DirectoryExtractor();
         }
 
-        if (class_exists(PharData::class)) {
+        if (class_exists(PharData::class) && $this->hasPharCompatibleExtension($source)) {
             return new PharDataExtractor();
         }
 
         return new ArchiveTarExtractor();
+    }
+
+    private function hasPharCompatibleExtension(string $path): bool
+    {
+        return (bool) preg_match('/\.(tar\.gz|tar\.bz2|tgz|tar)$/i', basename($path));
     }
 }
