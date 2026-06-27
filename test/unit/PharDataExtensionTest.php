@@ -9,6 +9,7 @@ use Phar;
 use PharData;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
+use UnexpectedValueException;
 
 /**
  * Tests that PharData extraction works correctly when temp files
@@ -49,7 +50,7 @@ class PharDataExtensionTest extends TestCase
         $noExt = tempnam(sys_get_temp_dir(), 'vfs');
         copy($this->tarball, $noExt);
 
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         try {
             new PharData($noExt);
         } finally {
