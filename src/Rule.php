@@ -60,7 +60,7 @@ class Rule
     /**
      * Generate VTIMEZONE sub-components (STANDARD/DAYLIGHT) for this ruleset.
      *
-     * @param string $tzName The timezone name abbreviation pattern (may contain %s).
+     * @param string $tzName Olson FORMAT field. %s is the rule letter, %z the UTC offset.
      * @param Offset $baseOffset The base UTC offset for the zone.
      * @param DateTimeImmutable $from Start of period to generate rules for.
      * @param DateTimeImmutable|null $to End of period.
@@ -130,7 +130,7 @@ class Rule
                 }
             }
 
-            $lines[] = 'TZNAME:' . sprintf($tzName, $rule[9]);
+            $lines[] = 'TZNAME:' . Abbreviation::format($tzName, $rule[9], $offsetTo->toMinutes());
             $lines[] = 'END:' . $type;
             $components[] = implode("\r\n", $lines);
         }
