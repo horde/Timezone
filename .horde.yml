@@ -41,6 +41,7 @@ dependencies:
     composer:
       pear/archive_tar: ^1.6
       psr/simple-cache: ^1 || ^2 || ^3
+      horde/http: ^3.1
 keywords:
   - olsen
 vendor: horde

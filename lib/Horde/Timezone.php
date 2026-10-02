@@ -213,11 +213,11 @@ class Horde_Timezone
             }
         } else {
             $this->_tmpfile = $url['path'];
-            unset($php_errormsg);
             if (!is_readable($this->_tmpfile)) {
                 $e = new Horde_Timezone_Exception(sprintf('Unable to open file %s.', $this->_params['location']));
-                if (isset($php_errormsg)) {
-                    $e->details = $php_errormsg;
+                $err = error_get_last();
+                if ($err !== null) {
+                    $e->details = $err['message'];
                 }
                 throw $e;
             }
