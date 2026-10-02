@@ -86,4 +86,19 @@ class IcalendarTest extends TestCase
             $tz->getZone('America/Montevideo')->toVtimezone()->exportVcalendar()
         );
     }
+
+    public function testOlsonPercentZ()
+    {
+        $tz = new MockTimezone('percent_z');
+        $export = $tz->getZone('Test/PercentZ')->toVtimezone()->exportVcalendar();
+        $this->assertStringContainsString('TZNAME:+11', $export);
+        $this->assertStringContainsString('TZNAME:+10', $export);
+        $this->assertStringNotContainsString('TZNAME:%z', $export);
+
+        $fixed = $tz->getZone('Test/FixedZ')->toVtimezone()->exportVcalendar();
+        $this->assertStringContainsString('TZNAME:+03', $fixed);
+
+        $negative = $tz->getZone('Test/NegZ')->toVtimezone()->exportVcalendar();
+        $this->assertStringContainsString('TZNAME:-0330', $negative);
+    }
 }

@@ -117,7 +117,7 @@ class Zone
                 $lines[] = 'DTSTART:' . $startDate->format('Ymd\THis');
                 $lines[] = 'TZOFFSETFROM:' . $startOffset->toIcal();
                 $lines[] = 'TZOFFSETTO:' . $newOffset->toIcal();
-                $lines[] = 'TZNAME:' . $name;
+                $lines[] = 'TZNAME:' . Abbreviation::format($name, '', $newOffset->toMinutes());
                 $lines[] = 'END:STANDARD';
                 $startOffset = $newOffset;
             } elseif (preg_match('/\d+(:(\d+))?/', $transition[1])) {
@@ -127,7 +127,7 @@ class Zone
                 $lines[] = 'DTSTART:' . $startDate->format('Ymd\THis');
                 $lines[] = 'TZOFFSETFROM:' . $startOffset->toIcal();
                 $lines[] = 'TZOFFSETTO:' . $newOffset->toIcal();
-                $lines[] = 'TZNAME:' . $name;
+                $lines[] = 'TZNAME:' . Abbreviation::format($name, '', $newOffset->toMinutes());
                 $lines[] = 'END:DAYLIGHT';
                 $startOffset = $newOffset;
             } else {

@@ -10,6 +10,8 @@
  * @package Timezone
  */
 
+use Horde\Timezone\Abbreviation;
+
 /**
  * Class representing a set of "Rule" timezone database entries of the
  * same name.
@@ -140,7 +142,10 @@ class Horde_Timezone_Zone
             $component->setAttribute('TZOFFSETFROM', $startOffset);
             $startOffset = $this->_getOffset($i);
             $component->setAttribute('TZOFFSETTO', $startOffset);
-            $component->setAttribute('TZNAME', $name);
+            $component->setAttribute(
+                'TZNAME',
+                Abbreviation::formatLegacyOffset((string) $name, '', $startOffset)
+            );
             $tz->addComponent($component);
         }
 

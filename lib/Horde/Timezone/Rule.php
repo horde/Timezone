@@ -13,6 +13,7 @@
  * @package Timezone
  */
 
+use Horde\Timezone\Abbreviation;
 use Horde\Util\HordeString;
 
 class Horde_Timezone_Rule
@@ -70,9 +71,9 @@ class Horde_Timezone_Rule
      * @param Horde_Icalendar_Vtimezone $tz  A VTIMEZONE component.
      * @param string $tzid                   The timezone ID of the component.
      * @param string $name                   A timezone name abbreviation.
-     *                                       May contain a placeholder that is
-     *                                       replaced the Rules' "Letter(s)"
-     *                                       entry.
+     *                                       An Olson FORMAT field: %s is
+     *                                       replaced by the rule's "Letter(s)"
+     *                                       entry, and %z by the UTC offset.
      * @param array $startOffset             An offset hash describing the
      *                                       base offset of a timezone.
      * @param Horde_Date $start              Start of the period to add rules
@@ -145,16 +146,13 @@ class Horde_Timezone_Rule
             );
             if ($rule[8] == 0) {
                 $component = new Horde_Icalendar_Standard();
-                $component->setAttribute('TZOFFSETFROM', $previousOffset);
-                $component->setAttribute('TZOFFSETTO', $startOffset);
+                $offsetTo = $startOffset;
             } else {
                 $component = new Horde_Icalendar_Daylight();
-                $component->setAttribute('TZOFFSETFROM', $previousOffset);
-                $component->setAttribute(
-                    'TZOFFSETTO',
-                    $this->_getOffset($startOffset, $rule[8])
-                );
+                $offsetTo = $this->_getOffset($startOffset, $rule[8]);
             }
+            $component->setAttribute('TZOFFSETFROM', $previousOffset);
+            $component->setAttribute('TZOFFSETTO', $offsetTo);
             switch ($modifier) {
                 case 's':
                     $first->hour += ($previousOffset['ahead'] ? 1 : -1) * $previousOffset['hour']
@@ -240,7 +238,10 @@ class Horde_Timezone_Rule
                     continue;
                 }
             }
-            $component->setAttribute('TZNAME', sprintf($name, $rule[9]));
+            $component->setAttribute(
+                'TZNAME',
+                Abbreviation::formatLegacyOffset((string) $name, (string) $rule[9], $offsetTo)
+            );
             $tz->addComponent($component);
         }
     }
